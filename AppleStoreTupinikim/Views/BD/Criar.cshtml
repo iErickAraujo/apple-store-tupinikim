@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "Criar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4>Criar Produto</h4>
+    </div>
+    <div class="panel-body">
+        <form action="@Url.Action("Criar","BD")" method="post">
+            <div class="form-group">
+                <label>Nome</label>
+                <input class="form-control" type="text" name="Nome" />
+            </div>
+            <div class="form-group">
+                <label>Valor</label>
+                <input class="form-control" type="text" name="Valor" />
+            </div>
+            <div class="form-group">
+                <label>Estoque</label>
+                <input class="form-control" type="text" name="Estoque" />
+            </div>
+
+            <hr />
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</div>
