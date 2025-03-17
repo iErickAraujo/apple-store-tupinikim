@@ -1,43 +1,46 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Extensions.Configuration;
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
-
-using Newtonsoft.Json;
-
 using AppleStoreTupinikim.Models;
 
 namespace AppleStoreTupinikim.Controllers
 {
     public class BDController : Controller
     {
-        IFirebaseClient cliente;
-        
-        public BDController()
+        private readonly IFirebaseClient _cliente;
+
+        public BDController(IConfiguration configuration)
         {
+            var authSecret = configuration["Firebase:AuthSecret"];
+            var basePath = configuration["Firebase:BasePath"];
+
             IFirebaseConfig config = new FirebaseConfig
             {
-                AuthSecret = "qj6UFKzbgzouzi7c6ErsPSFfANZ1M8s6ZEOHxpZS",
-                BasePath = "https://crudprodutos785-default-rtdb.firebaseio.com/",
+                AuthSecret = authSecret,
+                BasePath = basePath,
             };
 
-            cliente = new FirebaseClient(config);
-
+            _cliente = new FirebaseClient(config);
         }
+
         public IActionResult Inicio()
         {
             return View();
         }
+
         public IActionResult Criar()
         {
             return View();
         }
+
         public IActionResult Editar()
         {
             return View();
         }
+
         public IActionResult Excluir()
         {
             return View();
@@ -48,14 +51,16 @@ namespace AppleStoreTupinikim.Controllers
         {
             string idGerador = Guid.NewGuid().ToString("N");
 
-            SetResponse response = cliente.Set("Produtos/"+idGerador, oProduto);
+            SetResponse response = _cliente.Set("Produtos/" + idGerador, oProduto);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return View();
             }
-            else { return View(); }
-                
+            else
+            {
+                return View();
+            }
         }
     }
 }
